@@ -38,7 +38,9 @@ app.post('/register', jsonParser, [
     .withMessage('Username must be at least 3 characters long'),
     check('password')
     .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters long')
+    .withMessage('Password must be at least 8 characters long'),
+    check('confirmPassword', 'confirmPassword field must have the same value as the password field')
+    .custom((value, { req }) => value === req.body.password)
 ], (req, res) => {
 
     const errors = validationResult(req)
